@@ -1,16 +1,3 @@
-const dateId = Date.now();
-const date = new Date(dateId);                              // Crear una instancia de Date con el timestamp
-
-// Obtener día, mes y año
-const day = String(date.getDate()).padStart(2, '0');        // Asegura que siempre sean 2 dígitos
-const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
-const year = date.getFullYear();
-const hours = date.getHours();
-const minutes = date.getMinutes();
-const seconds = date.getSeconds();
-
-// Formatear como dd/mm/aaaa
-const formattedDate = `${year}_${month}_${day}_${hours}_${minutes}_${seconds}`;
 export const config = {
     user: process.env.BROWSERSTACK_USERNAME,
     key: process.env.BROWSERSTACK_ACCESS_KEY,
@@ -135,9 +122,9 @@ export const config = {
             testObservability: true,
             testObservabilityOptions: {
                 projectName: "Automatizacion",
-                buildName: "Automatizacion Build ${BUILD_NUMBER}"
+                buildName: "Automatizacion Build",
+                buildTag: 'Automatizacion Tag',
             },
-            browserstackLocal: true, opts: { forcelocal: false },
         }]
     ],
 

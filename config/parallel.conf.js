@@ -1,4 +1,3 @@
-import { TimelineService } from 'wdio-timeline-reporter/timeline-service.js';
 const dateId = Date.now();
 const date = new Date(dateId);                              // Crear una instancia de Date con el timestamp
 
@@ -13,9 +12,9 @@ const seconds = date.getSeconds();
 // Formatear como dd/mm/aaaa
 const formattedDate = `${year}_${month}_${day}_${hours}_${minutes}_${seconds}`;
 export const config = {
-    // user: process.env.BROWSERSTACK_USERNAME,
-    // key: process.env.BROWSERSTACK_ACCESS_KEY,
-    // hostname: 'hub.browserstack.com',
+    user: process.env.BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY,
+    hostname: 'hub.browserstack.com',
     //
     // ====================
     // Runner Configuration
@@ -66,22 +65,23 @@ export const config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    // capabilities: [
-    //     {
-    //         browserName: 'Chrome',
-    //         'bstack:options': {
-    //             os: 'Windows',
-    //             osVersion: '11',
-    //             browserVersion: 'latest'
-    //         }
-    //     },
-    // ],
-
     capabilities: [
         {
             browserName: 'Chrome',
+            'bstack:options': {
+                os: 'Windows',
+                osVersion: '11',
+                browserVersion: 'latest'
+            }
         },
     ],
+
+    commonCapabilities: {
+        'bstack:options': {
+        networkLogs: 'true',
+        consoleLogs: 'info'
+        }
+    },
 
     //
     // ===================
@@ -130,21 +130,21 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
+    services: [
+        ['browserstack', {
+            testObservability: true,
+            testObservabilityOptions: {
+                projectName: "Automatizacion",
+                buildName: "Automatizacion Build ${BUILD_NUMBER}"
+            },
+            browserstackLocal: true, opts: { forcelocal: false },
+        }]
+    ],
+
+
     // services: [
     //     [TimelineService],
-    //     ['browserstack', {
-    //         testObservability: true,
-    //         testObservabilityOptions: {
-    //             projectName: "Automatizacion",
-    //             buildName: "Automatizacion Build ${BUILD_NUMBER}"
-    //         },
-    //         browserstackLocal: true
-    //     }]
     // ],
-
-    services: [
-        [TimelineService],
-    ],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -167,13 +167,13 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['timeline', { 
-            outputDir: './reports',                                         //Carpeta de salida
-            fileName: `SHOPPING CART REPORTE_${formattedDate}.html`,          // Nombre del archivo HTML
-            embedImages: true,                                              // Incluir capturas de pantalla en el reporte
-            screenshotStrategy: 'on:error',                                 // Capturar pantallas en errores 
-        }]
-    ],
+    // reporters: [['timeline', { 
+    //         outputDir: './reports',                                         //Carpeta de salida
+    //         fileName: `SHOPPING CART REPORTE_${formattedDate}.html`,          // Nombre del archivo HTML
+    //         embedImages: true,                                              // Incluir capturas de pantalla en el reporte
+    //         screenshotStrategy: 'on:error',                                 // Capturar pantallas en errores 
+    //     }]
+    // ],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/

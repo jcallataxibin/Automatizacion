@@ -1,4 +1,4 @@
-import { $ } from '@wdio/globals'
+import { $, browser } from '@wdio/globals'
 import { menuSelectors } from '../../constants/menu.constants';
 
 class MenuPage {
@@ -23,14 +23,21 @@ class MenuPage {
         return $(menuSelectors.verCarrito);
     }
 
+    get btnBack () {
+        return $(menuSelectors.backButton);
+    }
+
     async seleccionarProductos(){
         await this.selectPrimerProducto.click();
         await this.btnAgregarAlCarrito.click();
-        await browser.back();
+        await browser.saveScreenshot('./screenshots/primerProducto.png');
+        await this.btnBack.click();
         await this.selectSegundoProducto.click();
         await this.btnAgregarAlCarrito.click();
+        await browser.saveScreenshot('./screenshots/segundoProducto.png');
         await this.btnVerCarritoButton.click();
         await this.btnVerCarrito.click();
+        await browser.saveScreenshot('./screenshots/carrito.png');
     }
 }
 

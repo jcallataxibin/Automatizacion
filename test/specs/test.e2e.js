@@ -27,7 +27,7 @@ describe('Shopping Cart', () => {
 
         await successPage.successForm()
 
-        await browser.pause(2000)
+        await browser.pause(4000)
     })
 })
 
